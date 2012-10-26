@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="metadata.movies.filmwebplus"
+		name="Filmweb+"
+		version="1.0.0"
+		provider-name="Kempniu">
+	<requires>
+		<import addon="xbmc.metadata" version="1.0" />
+	</requires>
+	<extension point="xbmc.metadata.scraper.movies"
+			language="pl"
+			library="filmwebplus.xml" />
+	<extension point="xbmc.addon.metadata">
+		<summary lang="en">Movie scraper using Filmweb, IMDB and TheMovieDB</summary>
+		<summary lang="pl">Scraper filmowy wykorzystujący Filmweb, IMDB i TheMovieDB</summary>
+		<description lang="en">Download movie information from Filmweb and IMDB plus fanarts from TheMovieDB.</description>
+		<description lang="pl">Pobieraj informacje o filmach z Filmweb i IMDB oraz fanarty z TheMovieDB.</description>
+		<platform>all</platform>
+	</extension>
+</addon>

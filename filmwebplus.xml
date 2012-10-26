@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?><scraper framework="1.1" date="2012-10-26" name="Filmweb+" content="movies" language="pl">
+	<!-- Match only URLs starting with http://www.filmweb.pl/ -->
+	<NfoUrl dest="3">
+		<RegExp input="$$1" output="&lt;url&gt;\1&lt;/url&gt;" dest="3">
+			<expression noclean="1">(http://www.filmweb.pl/.*)</expression>
+		</RegExp>
+	</NfoUrl>
+	<CreateSearchUrl dest="3">
+		<!--Movie title is pre-urlencoded by XBMC - no need to urlencode manually-->
+		<RegExp input="" output="&lt;url&gt;http://www.filmweb.pl/search/film?q=$$1&amp;amp;startYear=$$2&amp;amp;endYear=$$2&lt;/url&gt;" dest="3">
+			<expression />
+		</RegExp>
+	</CreateSearchUrl>
+	<GetSearchResults dest="3">
+		<!--Enclose results in <results></results>-->
+		<RegExp input="$$5" output="&lt;results sorted=&quot;yes&quot;&gt;\1&lt;/results&gt;" dest="3">
+			<!--Fetch search results (title, year, URL)-->
+			<RegExp input="$$1" output="&lt;entity&gt;&lt;title&gt;\2&lt;/title&gt;&lt;year&gt;\3&lt;/year&gt;&lt;url&gt;http://www.filmweb.pl\1&lt;/url&gt;&lt;/entity&gt;" dest="5+">
+				<expression repeat="yes">&lt;a class=searchResultTitle href="([^"]+)"&gt;\s*(.*?)\s*&lt;/a&gt;.*?&lt;div class=searchResultDetails&gt;(\d+)</expression>
+			</RegExp>
+			<expression fixchars="1" noclean="1" />
+		</RegExp>
+	</GetSearchResults>
+	<GetDetails dest="3">
+		<!--Enclose fetched details in <details></details>-->
+		<RegExp input="$$5" output="&lt;details&gt;\1&lt;/details&gt;" dest="3">
+			<!--Enclose title (fetched from buffer 6 - buffer 7 is urlencoded!) in <title></title>-->
+			<RegExp input="$$6" output="&lt;title&gt;\1&lt;/title&gt;" dest="5+">
+				<!--Save title in buffer 6-->
+				<RegExp input="$$1" output="\1" dest="6">
+					<expression>v:name[^&gt;]+&gt;([^&lt;]+)</expression>
+				</RegExp>
+				<!--urlencode buffer 6 (title) to buffer 7 to re-use it in a later call to GetIMDBSearch-->
+				<RegExp input="$$6" output="\1" dest="7">
+					<expression encode="1" />
+				</RegExp>
+				<expression />
+			</RegExp>
+			<!--Enclose year (fetched from buffer 6 for unification with title fetching) in <year></year>-->
+			<RegExp input="$$6" output="&lt;year&gt;\1&lt;/year&gt;" dest="5+">
+				<!--Save year in buffer 6-->
+				<RegExp input="$$1" output="\1" dest="6">
+					<expression>filmYear[^&gt;]+&gt;\((\d+)</expression>
+				</RegExp>
+				<!--Copy buffer 6 (year) to buffer 8 to re-use it in a later call to GetIMDBSearch-->
+				<RegExp input="$$6" output="\1" dest="8">
+					<expression />
+				</RegExp>
+				<expression />
+			</RegExp>
+			<!--Fetch countries-->
+			<RegExp input="$$1" output="&lt;country&gt;\1&lt;/country&gt;" dest="5+">
+				<expression repeat="yes">&lt;a href="/search/film\?countryIds=\d+"&gt;([^&lt;]+)</expression>
+			</RegExp>
+			<!--Fetch rating, replacing comma with decimal point-->
+			<RegExp input="$$1" output="&lt;rating&gt;\1.\2&lt;/rating&gt;" dest="5+">
+				<expression>v:average[^&gt;]+&gt;\s*(\d+),(\d+)</expression>
+			</RegExp>
+			<!--Fetch number of votes-->
+			<RegExp input="$$1" output="&lt;votes&gt;\1&lt;/votes&gt;" dest="5+">
+				<expression>v:votes[^&gt;]+&gt;([^&lt;]+)</expression>
+			</RegExp>
+			<!--Fetch genres-->
+			<RegExp input="$$1" output="&lt;genre&gt;\1&lt;/genre&gt;" dest="5+">
+				<expression repeat="yes">&lt;a href="/search/film\?genreIds=\d+"&gt;([^&lt;]+)</expression>
+			</RegExp>
+			<!--Fetch actors from cast, along with portraits and roles-->
+			<RegExp input="$$6" output="&lt;actor&gt;&lt;thumb&gt;\1&lt;/thumb&gt;&lt;name&gt;\2&lt;/name&gt;&lt;role&gt;\3&lt;/role&gt;&lt;/actor&gt;" dest="5+">
+				<!--Extract cast (repeatable regexp - cast can be split into two <ul>s on the movie's page!)-->
+				<RegExp input="$$1" output="\1" dest="6">
+					<expression repeat="yes" noclean="1">&lt;ul class="vertical-list filmCast"&gt;(.*?)&lt;/ul&gt;</expression>
+				</RegExp>
+				<expression repeat="yes">&lt;a href="/person.*?src="([^"]+).*?v:starring[^&gt;]+&gt;([^&lt;]+).*?roleName&gt;([^&lt;]+)</expression>
+			</RegExp>
+			<!--Fetch directors-->
+			<RegExp input="$$1" output="&lt;director&gt;\1&lt;/director&gt;" dest="5+">
+				<expression repeat="yes">v:directedBy[^&gt;]+&gt;([^&lt;]+)</expression>
+			</RegExp>
+			<!--Fetch writers' names-->
+			<RegExp input="$$6" output="&lt;credits&gt;\1&lt;/credits&gt;" dest="5+">
+				<!--Extract writers-->
+				<RegExp input="$$1" output="\1" dest="6">
+					<expression noclean="1">&lt;th&gt;scenariusz:&lt;/th&gt;&lt;td&gt;(.*?)&lt;/td&gt;</expression>
+				</RegExp>
+				<expression repeat="yes">&lt;a href="/person[^&gt;]+&gt;([^&lt;]+)</expression>
+			</RegExp>
+			<!--Fetch just the first plot description-->
+			<RegExp input="$$1" output="&lt;plot&gt;\1&lt;/plot&gt;" dest="5+">
+				<expression>v:summary[^&gt;]+&gt;(.*?)(&lt;/span&gt;|&lt;/p&gt;)</expression>
+			</RegExp>
+			<!--Posters will be grabbed by GetPosters as another HTTP request is required-->
+			<RegExp input="$$1" output="&lt;url function=&quot;GetPosters&quot;&gt;http://www.filmweb.pl\1&lt;/url&gt;" dest="5+">
+				<expression>url:"([^"]+)</expression>
+			</RegExp>
+			<!--Trailer will be grabbed by GetTrailer as another HTTP request is required-->
+			<RegExp input="$$1" output="&lt;url function=&quot;GetTrailer&quot;&gt;http://www.filmweb.pl\1&lt;/url&gt;" dest="5+">
+				<expression>videosList.*?a href="(/video/trailer/[^"]+)</expression>
+			</RegExp>
+			<!--Search IMDB using previously prepared title (buffer 7) and year (buffer 8)-->
+			<RegExp input="" output="&lt;url function=&quot;GetIMDBSearch&quot;&gt;http://www.imdb.com/search/title?release_date=$$8,$$8&amp;amp;title=$$7&lt;/url&gt;" dest="5+">
+				<!--Overwrite title previously saved in buffer 7 with urlencoded original title, if it exists - searching IMDB using Polish titles is not consistent-->
+				<RegExp input="$$1" output="\1" dest="7">
+					<expression encode="1">&lt;h2 class="text-large caption"&gt;([^&lt;]+)</expression>
+				</RegExp>
+				<!--Replace "Movie, The" with "The Movie" etc. (caveat: title is already urlencoded!)-->
+				<RegExp input="$$7" output="\2%20\1" dest="7">
+					<expression>(.*?)%2c%20(A|An|The)</expression>
+				</RegExp>
+				<expression />
+			</RegExp>
+			<expression fixchars="1" noclean="1" />
+		</RegExp>
+	</GetDetails>
+	<GetPosters dest="3">
+		<!--Enclose posters in <details></details>-->
+		<RegExp input="$$5" output="&lt;details&gt;\1&lt;/details&gt;" dest="3">
+			<!--Fetch posters-->
+			<RegExp input="$$1" output="&lt;thumb preview=&quot;\1&quot;&gt;\2&lt;/thumb&gt;" dest="5">
+				<expression repeat="yes">"thumb":"([^"]+)","src":"([^"]+)</expression>
+			</RegExp>
+			<expression noclean="1" />
+		</RegExp>
+	</GetPosters>
+	<GetTrailer dest="3">
+		<!--Fetch only the first trailer, enclose it in <details></details>-->
+		<RegExp input="$$1" output="&lt;details&gt;&lt;trailer&gt;\1&lt;/trailer&gt;&lt;/details&gt;" dest="3">
+			<expression noclean="1">src:\["([^"]+)</expression>
+		</RegExp>
+	</GetTrailer>
+	<GetIMDBSearch dest="3">
+		<!--Just take the first movie ID from the search results page and hope for the best, then use that ID to get IMDB and TMDB details-->
+		<RegExp input="$$1" output="&lt;details&gt;&lt;url function=&quot;GetIMDBDetails&quot;&gt;http://www.imdb.com/title/\1/&lt;/url&gt;&lt;url function=&quot;GetTMDBSearch&quot;&gt;http://www.themoviedb.org/search/movie?query=\1&lt;/url&gt;&lt;/details&gt;" dest="3">
+			<expression noclean="1">&lt;a href="/title/([^/]+)</expression>
+		</RegExp>
+	</GetIMDBSearch>
+	<GetIMDBDetails dest="3">
+		<!--Enclose fetched details in <details></details>-->
+		<RegExp input="$$5" output="&lt;details&gt;\1&lt;/details&gt;" dest="3">
+			<!--Fetch studios-->
+			<RegExp input="$$1" output="&lt;studio&gt;\1&lt;/studio&gt;" dest="5+">
+				<expression repeat="yes">"/company/[^/]+/"\s*&gt;([^&lt;]+)</expression>
+			</RegExp>
+			<!--Fetch runtime (Filmweb currently displays runtime in "X godz. Y min." format which doesn't play nice with XBMC skins)-->
+			<RegExp input="$$1" output="&lt;runtime&gt;\1&lt;/runtime&gt;" dest="5+">
+				<expression>&lt;div class="infobar"&gt;.*?(\d+) min</expression>
+			</RegExp>
+			<!--Fetch MPAA rating-->
+			<RegExp input="$$1" output="&lt;mpaa&gt;\1&lt;/mpaa&gt;" dest="5+">
+				<expression>&lt;span itemprop="contentRating"&gt;([^&lt;]+)</expression>
+			</RegExp>
+			<expression noclean="1" />
+		</RegExp>
+	</GetIMDBDetails>
+	<GetTMDBSearch dest="3">
+		<!--Searching for an IMDB id should always produce just one result, so we should be safe here-->
+		<RegExp input="$$1" output="&lt;details&gt;&lt;url function=&quot;GetTMDBDetails&quot;&gt;\1&lt;/url&gt;&lt;/details&gt;" dest="3">
+			<expression noclean="1">&lt;a href="([^"]+)</expression>
+		</RegExp>
+	</GetTMDBSearch>
+	<GetTMDBDetails dest="3">
+		<!--Enclose fanarts in <details><fanart></fanart></details>-->
+		<RegExp input="$$5" output="&lt;details&gt;&lt;fanart&gt;\1&lt;/fanart&gt;&lt;/details&gt;" dest="3">
+			<!--Fetch fanarts-->
+			<RegExp input="$$5" output="&lt;thumb preview=&quot;\2&quot;&gt;\1&lt;/thumb&gt;" dest="5">
+				<!--Extract the list of fanarts (called "backdrops" in TMDB)-->
+				<RegExp input="$$1" output="\1" dest="5">
+					<expression noclean="1">&lt;div id="backdrops"[^&gt;]+&gt;(.*?)&lt;/div&gt;</expression>
+				</RegExp>
+				<expression repeat="yes">href="([^"]+).*?src="([^"]+)</expression>
+			</RegExp>
+			<expression noclean="1" />
+		</RegExp>
+	</GetTMDBDetails>
+</scraper>
