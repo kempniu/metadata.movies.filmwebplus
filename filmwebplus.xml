@@ -104,7 +104,7 @@
 				</RegExp>
 				<!--Replace "Movie, The" with "The Movie" etc. (caveat: title is already urlencoded!)-->
 				<RegExp input="$$7" output="\2%20\1" dest="7">
-					<expression>(.*?)%2c%20(A|An|The)</expression>
+					<expression>(.*?)%2c%20(A|An|The)$</expression>
 				</RegExp>
 				<expression />
 			</RegExp>
