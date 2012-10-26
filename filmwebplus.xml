@@ -113,7 +113,7 @@
 				<expression>videosList.*?a href="(/video/trailer/[^"]+)</expression>
 			</RegExp>
 			<!--Search IMDB using previously prepared title (buffer 7) and year (buffer 8)-->
-			<RegExp input="" output="&lt;url function=&quot;GetIMDBSearch&quot;&gt;http://www.imdb.com/search/title?release_date=$$8,$$8&amp;amp;title=$$7&lt;/url&gt;" dest="5+">
+			<RegExp input="" output="&lt;url function=&quot;GetIMDBSearch&quot;&gt;http://www.imdb.com/search/title?release_date=$$8,$$8&amp;amp;title=$$7&amp;amp;title_type=feature,tv_movie&lt;/url&gt;" dest="5+">
 				<expression />
 			</RegExp>
 			<expression fixchars="1" noclean="1" />
