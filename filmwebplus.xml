@@ -36,6 +36,22 @@
 				</RegExp>
 				<expression />
 			</RegExp>
+			<!--Enclose original title (fetched from buffer 6 - buffer 7 is urlencoded!) in <originaltitle></originaltitle>-->
+			<RegExp input="$$6" output="&lt;originaltitle&gt;\1&lt;/originaltitle&gt;" dest="5+">
+				<!--Save original title in buffer 6 (clear buffer 6 if the original title is not defined)-->
+				<RegExp input="$$1" output="\1" dest="6">
+					<expression clear="yes">&lt;h2 class="text-large caption"&gt;([^&lt;]+)</expression>
+				</RegExp>
+				<!--Replace "Movie, The" with "The Movie" etc.-->
+				<RegExp input="$$6" output="\2 \1" dest="6">
+					<expression>(.*?), (A|An|The)$</expression>
+				</RegExp>
+				<!--urlencode buffer 6 (original title) to buffer 7 to re-use it in a later call to GetIMDBSearch-->
+				<RegExp input="$$6" output="\1" dest="7">
+					<expression encode="1" />
+				</RegExp>
+				<expression />
+			</RegExp>
 			<!--Enclose year (fetched from buffer 6 for unification with title fetching) in <year></year>-->
 			<RegExp input="$$6" output="&lt;year&gt;\1&lt;/year&gt;" dest="5+">
 				<!--Save year in buffer 6-->
@@ -98,14 +114,6 @@
 			</RegExp>
 			<!--Search IMDB using previously prepared title (buffer 7) and year (buffer 8)-->
 			<RegExp input="" output="&lt;url function=&quot;GetIMDBSearch&quot;&gt;http://www.imdb.com/search/title?release_date=$$8,$$8&amp;amp;title=$$7&lt;/url&gt;" dest="5+">
-				<!--Overwrite title previously saved in buffer 7 with urlencoded original title, if it exists - searching IMDB using Polish titles is not consistent-->
-				<RegExp input="$$1" output="\1" dest="7">
-					<expression encode="1">&lt;h2 class="text-large caption"&gt;([^&lt;]+)</expression>
-				</RegExp>
-				<!--Replace "Movie, The" with "The Movie" etc. (caveat: title is already urlencoded!)-->
-				<RegExp input="$$7" output="\2%20\1" dest="7">
-					<expression>(.*?)%2c%20(A|An|The)$</expression>
-				</RegExp>
 				<expression />
 			</RegExp>
 			<expression fixchars="1" noclean="1" />
