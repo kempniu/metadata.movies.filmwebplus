@@ -46,6 +46,14 @@
 				<RegExp input="$$6" output="\1" dest="7">
 					<expression encode="1" />
 				</RegExp>
+				<!--Replace Roman "II" at the end of the title with Arabic "2" to work around some incorrect Filmweb titles (caveat: buffer 7 is urlencoded!)-->
+				<RegExp input="$$7" output="\1%202" dest="7">
+					<expression>(.*?)%20II$</expression>
+				</RegExp>
+				<!--Replace Roman "III" at the end of the title with Arabic "3" to work around some incorrect Filmweb titles (caveat: buffer 7 is urlencoded!)-->
+				<RegExp input="$$7" output="\1%203" dest="7">
+					<expression>(.*?)%20III$</expression>
+				</RegExp>
 				<expression />
 			</RegExp>
 			<!--Enclose year (fetched from buffer 6 for unification with title fetching) in <year></year>-->
