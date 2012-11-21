@@ -110,7 +110,7 @@
 			</RegExp>
 			<!--Posters will be grabbed by GetPosters as another HTTP request is required-->
 			<RegExp input="$$1" output="&lt;url function=&quot;GetPosters&quot;&gt;http://www.filmweb.pl\1&lt;/url&gt;" dest="5+">
-				<expression>url:"([^"]+)</expression>
+				<expression>{url:"([^"]+)</expression>
 			</RegExp>
 			<!--Trailer will be grabbed by GetTrailer as another HTTP request is required-->
 			<RegExp input="$$1" output="&lt;url function=&quot;GetTrailer&quot;&gt;http://www.filmweb.pl\1&lt;/url&gt;" dest="5+">
