@@ -15,14 +15,14 @@ Installation
 
 For now, the steps are:
 
-1. Download the [latest version](https://github.com/kempniu/metadata.movies.filmwebplus/downloads).
+1. Download the [latest version](https://github.com/kempniu/metadata.movies.filmwebplus/archive/master.zip).
 2. In XBMC, navigate to *System* > *Settings* > *Add-ons* > *Install from zip file*.
 3. Browse for the downloaded zip file and click *OK*.
 
 Compatibility
 =============
 
-Only XBMC v11.0 (*Eden*) is supported at this time.
+Only XBMC v11.0 *Eden* is supported at this time.
 
 Disclaimer
 ==========
