@@ -85,12 +85,12 @@
 				<expression repeat="yes">&lt;a href="/search/film\?genreIds=\d+"&gt;([^&lt;]+)</expression>
 			</RegExp>
 			<!--Fetch actors from cast, along with portraits and roles-->
-			<RegExp input="$$6" output="&lt;actor&gt;&lt;thumb&gt;\1&lt;/thumb&gt;&lt;name&gt;\2&lt;/name&gt;&lt;role&gt;\3&lt;/role&gt;&lt;/actor&gt;" dest="5+">
+			<RegExp input="$$6" output="&lt;actor&gt;&lt;thumb&gt;\1&lt;/thumb&gt;&lt;name&gt;\2&lt;/name&gt;&lt;role&gt;\4&lt;/role&gt;&lt;/actor&gt;" dest="5+">
 				<!--Extract cast (repeatable regexp - cast can be split into two <ul>s on the movie's page!)-->
 				<RegExp input="$$1" output="\1" dest="6">
 					<expression repeat="yes" noclean="1">&lt;ul class="vertical-list filmCast"&gt;(.*?)&lt;/ul&gt;</expression>
 				</RegExp>
-				<expression repeat="yes">&lt;a href="/person.*?src="([^"]+).*?v:starring[^&gt;]+&gt;([^&lt;]+).*?roleName&gt;([^&lt;]+)</expression>
+				<expression repeat="yes">&lt;a href="/person.*?src="([^"]+).*?v:starring[^&gt;]+&gt;([^&lt;]+).*?roleName&gt;(&lt;a class=[^&gt;]+&gt;)?([^&lt;]+)</expression>
 			</RegExp>
 			<!--Fetch directors-->
 			<RegExp input="$$1" output="&lt;director&gt;\1&lt;/director&gt;" dest="5+">
