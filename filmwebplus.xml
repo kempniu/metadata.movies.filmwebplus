@@ -181,12 +181,9 @@
 		<!--Enclose fanarts in <details><fanart></fanart></details>-->
 		<RegExp input="$$5" output="&lt;details&gt;&lt;fanart&gt;\1&lt;/fanart&gt;&lt;/details&gt;" dest="3">
 			<!--Fetch fanarts-->
-			<RegExp input="$$5" output="&lt;thumb preview=&quot;\2&quot;&gt;\1&lt;/thumb&gt;" dest="5">
+			<RegExp input="$$1" output="&lt;thumb preview=&quot;\1&quot;&gt;\2/original/\3&lt;/thumb&gt;" dest="5">
 				<!--Extract the list of fanarts (called "backdrops" in TMDB)-->
-				<RegExp input="$$1" output="\1" dest="5">
-					<expression noclean="1">&lt;div id="backdrops"[^&gt;]+&gt;(.*?)&lt;/div&gt;</expression>
-				</RegExp>
-				<expression repeat="yes">href="([^"]+).*?src="([^"]+)</expression>
+				<expression repeat="yes">&lt;img class="lightbox".*?src="((.*?)/w\d+/([^"]+))</expression>
 			</RegExp>
 			<expression noclean="1" />
 		</RegExp>
