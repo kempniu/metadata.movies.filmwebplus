@@ -158,7 +158,7 @@
 		<RegExp input="$$5" output="&lt;details&gt;\1&lt;/details&gt;" dest="3">
 			<!--Fetch studios-->
 			<RegExp input="$$1" output="&lt;studio&gt;\1&lt;/studio&gt;" dest="5+">
-				<expression repeat="yes">"/company/[^/]+/"\s*&gt;([^&lt;]+)</expression>
+				<expression repeat="yes">"/company/[^&gt;]+&gt;([^&lt;]+)</expression>
 			</RegExp>
 			<!--Fetch runtime (Filmweb currently displays runtime in "X godz. Y min." format which doesn't play nice with XBMC skins)-->
 			<RegExp input="$$1" output="&lt;runtime&gt;\1&lt;/runtime&gt;" dest="5+">
