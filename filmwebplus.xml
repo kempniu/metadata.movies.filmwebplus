@@ -40,7 +40,7 @@
 				</RegExp>
 				<!--Replace "Movie, The" with "The Movie" etc.-->
 				<RegExp input="$$6" output="\2 \1" dest="6">
-					<expression>(.*?), (A|An|The)$</expression>
+					<expression>(.*), (A|An|The)$</expression>
 				</RegExp>
 				<!--urlencode buffer 6 (original title if it exists, Polish title otherwise) to buffer 7 to re-use it in a later call to GetIMDBSearch-->
 				<RegExp input="$$6" output="\1" dest="7">
@@ -48,11 +48,11 @@
 				</RegExp>
 				<!--Replace Roman "II" at the end of the title with Arabic "2" to work around some incorrect Filmweb titles (caveat: buffer 7 is urlencoded!)-->
 				<RegExp input="$$7" output="\1%202" dest="7">
-					<expression>(.*?)%20II$</expression>
+					<expression>(.*)%20II$</expression>
 				</RegExp>
 				<!--Replace Roman "III" at the end of the title with Arabic "3" to work around some incorrect Filmweb titles (caveat: buffer 7 is urlencoded!)-->
 				<RegExp input="$$7" output="\1%203" dest="7">
-					<expression>(.*?)%20III$</expression>
+					<expression>(.*)%20III$</expression>
 				</RegExp>
 				<expression />
 			</RegExp>
