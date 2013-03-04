@@ -22,7 +22,10 @@ For now, the steps are:
 Compatibility
 =============
 
-Only XBMC v11.0 *Eden* is supported at this time.
+The following XBMC versions are supported:
+
+* XBMC v11.0 *Eden*
+* XBMC v12.0 *Frodo*
 
 Disclaimer
 ==========
