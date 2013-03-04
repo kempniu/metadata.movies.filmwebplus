@@ -147,9 +147,31 @@
 			<expression noclean="1" />
 		</RegExp>
 	</GetTrailer>
+	<!--
+
+		This is a recurrent function which replaces all Polish letters
+		in an IMDB search URL with their ASCII counterparts. I am
+		aware that its code may be confusing but this is the price we
+		have to pay for no built-in replacing function being available
+		to XBMC scrapers. Each iteration replaces a single occurence
+		of every Polish letter - here is how an example string will
+		look like after each iteration:
+
+			0. ąąąąćććęęł
+			1. ąąąaććcęel
+			2. ąąaaćcceel
+			3. ąaaaccceel
+			4. aaaaccceel
+
+		Once there are no more Polish letters present in the search
+		URL, the function stops calling itself and instead outputs
+		a call to GetIMDBSearch. Note that the input for this function
+		is pre-urlencoded.
+
+	-->
 	<PrepareIMDBSearch dest="3">
-		<!--Enclose processed URL in <details><url></url></details>-->
-		<RegExp input="$$5" output="&lt;details&gt;&lt;url function=&quot;GetIMDBSearch&quot;&gt;\1&lt;/url&gt;&lt;/details&gt;" dest="3">
+		<!--Enclose result in <details></details>-->
+		<RegExp input="$$6" output="&lt;details&gt;\1&lt;/details&gt;" dest="3">
 			<!--Copy input to buffer 5 for processing-->
 			<RegExp input="$$1" output="\1" dest="5">
 				<expression />
@@ -225,6 +247,14 @@
 			<!--Replace "Ź" with "Z"-->
 			<RegExp input="$$5" output="\1Z\2" dest="5">
 				<expression>(.*)%c5%b9(.*)</expression>
+			</RegExp>
+			<!--Enclose processed result in <url></url>...-->
+			<RegExp input="$$5" output="&lt;url function=&quot;GetIMDBSearch&quot;&gt;\1&lt;/url&gt;" dest="6">
+				<expression />
+			</RegExp>
+			<!--...but if there are any unprocessed characters left in the search URL, call self again-->
+			<RegExp input="$$5" output="&lt;chain function=&quot;PrepareIMDBSearch&quot;&gt;\1&lt;/chain&gt;" dest="6">
+				<expression>(.*%c.*)</expression>
 			</RegExp>
 			<expression noclean="1" />
 		</RegExp>
