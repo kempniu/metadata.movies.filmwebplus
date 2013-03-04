@@ -42,9 +42,9 @@
 				<RegExp input="$$6" output="\2 \1" dest="6">
 					<expression>(.*), (A|An|The)$</expression>
 				</RegExp>
-				<!--urlencode buffer 6 (original title if it exists, Polish title otherwise) to buffer 7 to re-use it in a later call to GetIMDBSearch-->
+				<!--urlencode buffer 6 (original title if it exists, Polish title otherwise) to buffer 7 to re-use it in a later call to PrepareIMDBSearch-->
 				<RegExp input="$$6" output="\1" dest="7">
-					<expression encode="1" />
+					<expression encode="1" fixchars="1" />
 				</RegExp>
 				<!--Replace Roman "II" at the end of the title with Arabic "2" to work around some incorrect Filmweb titles (caveat: buffer 7 is urlencoded!)-->
 				<RegExp input="$$7" output="\1%202" dest="7">
@@ -62,7 +62,7 @@
 				<RegExp input="$$1" output="\1" dest="6">
 					<expression>filmYear[^&gt;]+&gt;\((\d+)</expression>
 				</RegExp>
-				<!--Copy buffer 6 (year) to buffer 8 to re-use it in a later call to GetIMDBSearch-->
+				<!--Copy buffer 6 (year) to buffer 8 to re-use it in a later call to PrepareIMDBSearch-->
 				<RegExp input="$$6" output="\1" dest="8">
 					<expression />
 				</RegExp>
@@ -116,8 +116,8 @@
 			<RegExp input="$$1" output="&lt;url function=&quot;GetTrailer&quot;&gt;http://www.filmweb.pl\1&lt;/url&gt;" dest="5+">
 				<expression>videosList.*?a href="(/video/trailer/[^"]+)</expression>
 			</RegExp>
-			<!--Search IMDB using previously prepared title (buffer 7) and year (buffer 8)-->
-			<RegExp input="" output="&lt;url function=&quot;GetIMDBSearch&quot;&gt;http://www.imdb.com/search/title?release_date=$$8,$$8&amp;amp;title=$$7&amp;amp;title_type=feature,tv_movie&lt;/url&gt;" dest="5+">
+			<!--Prepare IMDB search URL using previously prepared title (buffer 7) and year (buffer 8)-->
+			<RegExp input="" output="&lt;chain function=&quot;PrepareIMDBSearch&quot;&gt;http://www.imdb.com/search/title?release_date=$$8,$$8&amp;amp;title=$$7&amp;amp;title_type=feature,tv_movie&lt;/chain&gt;" dest="5+">
 				<expression />
 			</RegExp>
 			<expression fixchars="1" noclean="1" />
@@ -147,6 +147,88 @@
 			<expression noclean="1" />
 		</RegExp>
 	</GetTrailer>
+	<PrepareIMDBSearch dest="3">
+		<!--Enclose processed URL in <details><url></url></details>-->
+		<RegExp input="$$5" output="&lt;details&gt;&lt;url function=&quot;GetIMDBSearch&quot;&gt;\1&lt;/url&gt;&lt;/details&gt;" dest="3">
+			<!--Copy input to buffer 5 for processing-->
+			<RegExp input="$$1" output="\1" dest="5">
+				<expression />
+			</RegExp>
+			<!--Replace "ą" with "a"-->
+			<RegExp input="$$5" output="\1a\2" dest="5">
+				<expression>(.*)%c4%85(.*)</expression>
+			</RegExp>
+			<!--Replace "ć" with "c"-->
+			<RegExp input="$$5" output="\1c\2" dest="5">
+				<expression>(.*)%c4%87(.*)</expression>
+			</RegExp>
+			<!--Replace "ę" with "e"-->
+			<RegExp input="$$5" output="\1e\2" dest="5">
+				<expression>(.*)%c4%99(.*)</expression>
+			</RegExp>
+			<!--Replace "ł" with "l"-->
+			<RegExp input="$$5" output="\1l\2" dest="5">
+				<expression>(.*)%c5%82(.*)</expression>
+			</RegExp>
+			<!--Replace "ń" with "n"-->
+			<RegExp input="$$5" output="\1n\2" dest="5">
+				<expression>(.*)%c5%84(.*)</expression>
+			</RegExp>
+			<!--Replace "ó" with "o"-->
+			<RegExp input="$$5" output="\1o\2" dest="5">
+				<expression>(.*?)%c3%b3(.*)</expression>
+			</RegExp>
+			<!--Replace "ś" with "s"-->
+			<RegExp input="$$5" output="\1s\2" dest="5">
+				<expression>(.*)%c5%9b(.*)</expression>
+			</RegExp>
+			<!--Replace "ż" with "z"-->
+			<RegExp input="$$5" output="\1z\2" dest="5">
+				<expression>(.*)%c5%bc(.*)</expression>
+			</RegExp>
+			<!--Replace "ź" with "z"-->
+			<RegExp input="$$5" output="\1z\2" dest="5">
+				<expression>(.*)%c5%ba(.*)</expression>
+			</RegExp>
+			<!--Replace "Ą" with "A"-->
+			<RegExp input="$$5" output="\1A\2" dest="5">
+				<expression>(.*)%c4%84(.*)</expression>
+			</RegExp>
+			<!--Replace "Ć" with "C"-->
+			<RegExp input="$$5" output="\1C\2" dest="5">
+				<expression>(.*)%c4%86(.*)</expression>
+			</RegExp>
+			<!--Replace "Ę" with "E"-->
+			<RegExp input="$$5" output="\1E\2" dest="5">
+				<expression>(.*)%c4%98(.*)</expression>
+			</RegExp>
+			<!--Replace "Ł" with "L"-->
+			<RegExp input="$$5" output="\1L\2" dest="5">
+				<expression>(.*)%c5%81(.*)</expression>
+			</RegExp>
+			<!--Replace "Ń" with "N"-->
+			<RegExp input="$$5" output="\1N\2" dest="5">
+				<expression>(.*)%c5%83(.*)</expression>
+			</RegExp>
+			<!--Replace "Ó" with "O"-->
+			<RegExp input="$$5" output="\1O\2" dest="5">
+				<expression>(.*)%c3%93(.*)</expression>
+			</RegExp>
+			<!--Replace "Ś" with "S"-->
+			<RegExp input="$$5" output="\1S\2" dest="5">
+				<expression>(.*)%c5%9a(.*)</expression>
+			</RegExp>
+			<!--Replace "Ż" with "Z"-->
+			<RegExp input="$$5" output="\1Z\2" dest="5">
+				<expression>(.*)%c5%bb(.*)</expression>
+			</RegExp>
+			<!--Replace "Ź" with "Z"-->
+			<RegExp input="$$5" output="\1Z\2" dest="5">
+				<expression>(.*)%c5%b9(.*)</expression>
+			</RegExp>
+			<expression noclean="1" />
+		</RegExp>
+	</PrepareIMDBSearch>
 	<GetIMDBSearch dest="3">
 		<!--Just take the first movie ID from the search results page and hope for the best, then use that ID to get IMDB and TMDB details-->
 		<RegExp input="$$1" output="&lt;details&gt;&lt;url function=&quot;GetIMDBDetails&quot;&gt;http://www.imdb.com/title/\1/&lt;/url&gt;&lt;url function=&quot;GetTMDBSearch&quot;&gt;http://www.themoviedb.org/search/movie?query=\1&lt;/url&gt;&lt;/details&gt;" dest="3">
