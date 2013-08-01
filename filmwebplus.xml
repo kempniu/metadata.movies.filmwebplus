@@ -7,7 +7,7 @@
 	</NfoUrl>
 	<CreateSearchUrl dest="3">
 		<!--Movie title is pre-urlencoded by XBMC - no need to urlencode manually-->
-		<RegExp input="" output="&lt;url&gt;http://www.filmweb.pl/search/film?q=$$1&amp;amp;startYear=$$2&amp;amp;endYear=$$2&lt;/url&gt;" dest="3">
+		<RegExp input="" output="&lt;url&gt;http://www.filmweb.pl/search/live?q=$$1&lt;/url&gt;" dest="3">
 			<expression />
 		</RegExp>
 	</CreateSearchUrl>
@@ -15,8 +15,8 @@
 		<!--Enclose results in <results></results>-->
 		<RegExp input="$$5" output="&lt;results sorted=&quot;yes&quot;&gt;\1&lt;/results&gt;" dest="3">
 			<!--Fetch search results (title, year, URL)-->
-			<RegExp input="$$1" output="&lt;entity&gt;&lt;title&gt;\2&lt;/title&gt;&lt;year&gt;\3&lt;/year&gt;&lt;url&gt;http://www.filmweb.pl\1&lt;/url&gt;&lt;/entity&gt;" dest="5+">
-				<expression repeat="yes">&lt;h3&gt;&lt;a class="hdr hdr-medium" href="([^"]+)"&gt; (.*?) \((\d+)\) &lt;/a&gt;</expression>
+			<RegExp input="$$1" output="&lt;entity&gt;&lt;title&gt;\4&lt;/title&gt;&lt;year&gt;\6&lt;/year&gt;&lt;url&gt;http://www.filmweb.pl/film/-\6-\1&lt;/url&gt;&lt;/entity&gt;" dest="5+">
+				<expression repeat="yes">f\\c(.*?)\\c(.*?)\\c(.*?)\\c(.*?)\\c(.*?)\\c(.*?)\\c(.*?)\\a</expression>
 			</RegExp>
 			<expression fixchars="1" noclean="1" />
 		</RegExp>
