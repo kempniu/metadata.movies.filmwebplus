@@ -15,7 +15,7 @@
 		<!--Enclose results in <results></results>-->
 		<RegExp input="$$5" output="&lt;results sorted=&quot;yes&quot;&gt;\1&lt;/results&gt;" dest="3">
 			<!--Fetch search results (title, year, URL)-->
-			<RegExp input="$$1" output="&lt;entity&gt;&lt;title&gt;\4&lt;/title&gt;&lt;year&gt;\6&lt;/year&gt;&lt;url&gt;http://www.filmweb.pl/film/-\6-\1&lt;/url&gt;&lt;/entity&gt;" dest="5+">
+			<RegExp input="$$1" output="&lt;entity&gt;&lt;title&gt;\3&lt;/title&gt;&lt;year&gt;\6&lt;/year&gt;&lt;url&gt;http://www.filmweb.pl/film/-\6-\1&lt;/url&gt;&lt;/entity&gt;" dest="5+">
 				<expression repeat="yes">f\\c(.*?)\\c(.*?)\\c(.*?)\\c(.*?)\\c(.*?)\\c(.*?)\\c(.*?)\\a</expression>
 			</RegExp>
 			<expression fixchars="1" noclean="1" />
