@@ -42,7 +42,7 @@
 				<RegExp input="$$6" output="\2 \1" dest="6">
 					<expression>(.*), (A|An|The)$</expression>
 				</RegExp>
-				<!--urlencode buffer 6 (original title if it exists, Polish title otherwise) to buffer 7 to re-use it in a later call to PrepareIMDBSearch-->
+				<!--urlencode buffer 6 (original title if it exists, Polish title otherwise) to buffer 7 to re-use it in later calls-->
 				<RegExp input="$$6" output="\1" dest="7">
 					<expression encode="1" fixchars="1" />
 				</RegExp>
@@ -62,7 +62,7 @@
 				<RegExp input="$$1" output="\1" dest="6">
 					<expression>filmYear[^&gt;]+&gt;\((\d+)</expression>
 				</RegExp>
-				<!--Copy buffer 6 (year) to buffer 8 to re-use it in a later call to PrepareIMDBSearch-->
+				<!--Copy buffer 6 (year) to buffer 8 to re-use it in later calls-->
 				<RegExp input="$$6" output="\1" dest="8">
 					<expression />
 				</RegExp>
@@ -121,7 +121,11 @@
 				<expression>videosList.*?a href="(/video/trailer/[^"]+)</expression>
 			</RegExp>
 			<!--Prepare IMDB search URL using previously prepared title (buffer 7) and year (buffer 8)-->
-			<RegExp input="" output="&lt;chain function=&quot;PrepareIMDBSearch&quot;&gt;http://www.imdb.com/search/title?release_date=$$8,$$8&amp;amp;title=$$7&amp;amp;title_type=feature,tv_movie,documentary,video&lt;/chain&gt;" dest="5+">
+			<RegExp input="" output="&lt;chain function=&quot;Latinize&quot;&gt;GetIMDBSearch:http://www.imdb.com/search/title?release_date=$$8,$$8&amp;amp;title=$$7&amp;amp;title_type=feature,tv_movie,documentary,video&lt;/chain&gt;" dest="5+">
+				<expression />
+			</RegExp>
+			<!--Prepare TMDB search URL using previously prepared title (buffer 7) and year (buffer 8)-->
+			<RegExp input="" output="&lt;chain function=&quot;Latinize&quot;&gt;GetTMDBSearch:http://www.themoviedb.org/search/movie?query=$$7+y%3A$$8&lt;/chain&gt;" dest="5+">
 				<expression />
 			</RegExp>
 			<expression fixchars="1" noclean="1" />
@@ -157,13 +161,18 @@
 	</GetTrailer>
 	<!--
 
-		This is a recurrent function which replaces all Polish letters
-		in an IMDB search URL with their ASCII counterparts. I am
-		aware that its code may be confusing but this is the price we
-		have to pay for no built-in replacing function being available
-		to XBMC scrapers. Each iteration replaces a single occurence
-		of every Polish letter - here is how an example string will
-		look like after each iteration:
+		This is a recurrent function which first replaces Polish
+		characters from its argument with their Latin counterparts
+		and then splits the converted argument into a function name and
+		a latinized string (format is "fname:lstring"). The value
+		returned by Latinize is a call to a URL function "fname" with
+		a latinized argument "lstring".
+
+		I am aware that this function's code may be confusing but this
+		is the price we have to pay for no built-in replacing function
+		being available to XBMC scrapers. Each iteration replaces
+		a single occurence of every Polish letter - here is how an
+		example string will look like after each iteration:
 
 			0. ąąąąćććęęł
 			1. ąąąaććcęel
@@ -173,11 +182,12 @@
 
 		Once there are no more Polish letters present in the search
 		URL, the function stops calling itself and instead outputs
-		a call to GetIMDBSearch. Note that the input for this function
-		is pre-urlencoded.
+		a call to the supplied URL function.
+
+		Note: input for Latinize is pre-urlencoded.
 
 	-->
-	<PrepareIMDBSearch dest="3">
+	<Latinize dest="3">
 		<!--Enclose result in <details></details>-->
 		<RegExp input="$$6" output="&lt;details&gt;\1&lt;/details&gt;" dest="3">
 			<!--Copy input to buffer 5 for processing-->
@@ -249,19 +259,19 @@
 				<expression>(.*)%c5%b9(.*)</expression>
 			</RegExp>
 			<!--Enclose processed result in <url></url>...-->
-			<RegExp input="$$5" output="&lt;url function=&quot;GetIMDBSearch&quot;&gt;\1&lt;/url&gt;" dest="6">
-				<expression />
+			<RegExp input="$$5" output="&lt;url function=&quot;\1&quot;&gt;\2&lt;/url&gt;" dest="6">
+				<expression>(.*?):(.*)</expression>
 			</RegExp>
 			<!--...but if there are any unprocessed characters left in the search URL, call self again-->
-			<RegExp input="$$5" output="&lt;chain function=&quot;PrepareIMDBSearch&quot;&gt;\1&lt;/chain&gt;" dest="6">
+			<RegExp input="$$5" output="&lt;chain function=&quot;Latinize&quot;&gt;\1&lt;/chain&gt;" dest="6">
 				<expression>(.*(%c4%85|%c4%87|%c4%99|%c5%82|%c5%84|%c5%9b|%c5%bc|%c5%ba|%c4%84|%c4%86|%c4%98|%c5%81|%c5%83|%c5%9a|%c5%bb|%c5%b9).*)</expression>
 			</RegExp>
 			<expression noclean="1" />
 		</RegExp>
-	</PrepareIMDBSearch>
+	</Latinize>
 	<GetIMDBSearch dest="3">
-		<!--Just take the first movie ID from the search results page and hope for the best, then use that ID to get IMDB and TMDB details-->
-		<RegExp input="$$1" output="&lt;details&gt;&lt;url function=&quot;GetIMDBDetails&quot;&gt;http://www.imdb.com/title/\1/&lt;/url&gt;&lt;url function=&quot;GetTMDBSearch&quot;&gt;http://www.themoviedb.org/search/movie?query=\1&lt;/url&gt;&lt;/details&gt;" dest="3">
+		<!--Just take the first movie ID from the search results page and hope for the best, then use that ID to get IMDB details-->
+		<RegExp input="$$1" output="&lt;details&gt;&lt;url function=&quot;GetIMDBDetails&quot;&gt;http://www.imdb.com/title/\1/&lt;/url&gt;&lt;/details&gt;" dest="3">
 			<expression noclean="1">&lt;a href="/title/([^/]+)</expression>
 		</RegExp>
 	</GetIMDBSearch>
@@ -284,8 +294,8 @@
 		</RegExp>
 	</GetIMDBDetails>
 	<GetTMDBSearch dest="3">
-		<!--Searching for an IMDB id should always produce just one result, so we should be safe here-->
-		<RegExp input="$$1" output="&lt;details&gt;&lt;url function=&quot;GetTMDBDetails&quot;&gt;http://www.themoviedb.org/\1&lt;/url&gt;&lt;/details&gt;" dest="3">
+		<!--Just use the first movie link from the search results page and hope for the best-->
+		<RegExp input="$$1" output="&lt;details&gt;&lt;url function=&quot;GetTMDBDetails&quot;&gt;http://www.themoviedb.org\1&lt;/url&gt;&lt;/details&gt;" dest="3">
 			<expression noclean="1">&lt;ul class="search_results movie"&gt;.*?&lt;a href="([^"]+)</expression>
 		</RegExp>
 	</GetTMDBSearch>
