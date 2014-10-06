@@ -305,7 +305,7 @@
 			<!--Fetch fanarts-->
 			<RegExp input="$$1" output="&lt;thumb preview=&quot;\1&quot;&gt;\2/original/\3&lt;/thumb&gt;" dest="5">
 				<!--Extract the list of fanarts (called "backdrops" in TMDB)-->
-				<expression repeat="yes">&lt;img class="lightbox".*?src="((.*?)/w\d+/([^"]+))</expression>
+				<expression repeat="yes">&lt;img.*?class="lightbox".*?src="((.*?)/w\d+/([^"]+))</expression>
 			</RegExp>
 			<expression noclean="1" />
 		</RegExp>
