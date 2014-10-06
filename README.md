@@ -24,8 +24,9 @@ Compatibility
 
 The following XBMC versions are supported:
 
-* XBMC v11.0 *Eden*
-* XBMC v12.0 *Frodo*
+* XBMC 11 *Eden*
+* XBMC 12 *Frodo*
+* XBMC 13 *Gotham*
 
 Disclaimer
 ==========
