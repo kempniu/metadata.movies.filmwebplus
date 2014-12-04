@@ -36,7 +36,7 @@
 			<RegExp input="$$6" output="&lt;originaltitle&gt;\1&lt;/originaltitle&gt;" dest="5+">
 				<!--Save original title in buffer 6, if it exists-->
 				<RegExp input="$$1" output="\1" dest="6">
-					<expression>&lt;h2 class="text-large caption"&gt;([^&lt;]+)</expression>
+					<expression>&lt;h2 class="cap s-16 top-5"&gt;([^&lt;]+)</expression>
 				</RegExp>
 				<!--Replace "Movie, The" with "The Movie" etc.-->
 				<RegExp input="$$6" output="\2 \1" dest="6">
@@ -60,7 +60,7 @@
 			<RegExp input="$$6" output="&lt;year&gt;\1&lt;/year&gt;" dest="5+">
 				<!--Save year in buffer 6-->
 				<RegExp input="$$1" output="\1" dest="6">
-					<expression>filmYear[^&gt;]+&gt;\((\d+)</expression>
+					<expression>&lt;span class=halfSize&gt;\((\d+)\) &lt;/span&gt;</expression>
 				</RegExp>
 				<!--Copy buffer 6 (year) to buffer 8 to re-use it in later calls-->
 				<RegExp input="$$6" output="\1" dest="8">
@@ -85,12 +85,12 @@
 				<expression repeat="yes">&lt;a href="/search/film\?genreIds=\d+"&gt;([^&lt;]+)</expression>
 			</RegExp>
 			<!--Fetch actors from cast, along with portraits and roles-->
-			<RegExp input="$$6" output="&lt;actor&gt;&lt;thumb&gt;\1&lt;/thumb&gt;&lt;name&gt;\2&lt;/name&gt;&lt;role&gt;\4&lt;/role&gt;&lt;/actor&gt;" dest="5+">
-				<!--Extract cast (repeatable regexp - cast can be split into two <ul>s on the movie's page!)-->
+			<RegExp input="$$6" output="&lt;actor&gt;&lt;thumb&gt;\1&lt;/thumb&gt;&lt;name&gt;\2&lt;/name&gt;&lt;role&gt;\3&lt;/role&gt;&lt;/actor&gt;" dest="5+">
+				<!--Extract cast-->
 				<RegExp input="$$1" output="\1" dest="6">
-					<expression repeat="yes" noclean="1">&lt;ul class="vertical-list filmCast"&gt;(.*?)&lt;/ul&gt;</expression>
+					<expression noclean="1">&lt;table class=filmCast&gt;(.*?)&lt;/table&gt;</expression>
 				</RegExp>
-				<expression repeat="yes">&lt;a href="/person.*?src="([^"]+).*?v:starring[^&gt;]+&gt;([^&lt;]+).*?roleName&gt;(&lt;a class=[^&gt;]+&gt;)?([^&lt;]+)</expression>
+				<expression repeat="yes">&lt;tr.*?src="([^"]+).*?rel="v:starring"&gt;([^&lt;]+).*?class=as.*?&lt;td[^&gt;]*&gt;&lt;span&gt;([^&lt;]+)</expression>
 			</RegExp>
 			<!--Fetch directors-->
 			<RegExp input="$$1" output="&lt;director&gt;\1&lt;/director&gt;" dest="5+">
@@ -118,7 +118,7 @@
 			</RegExp>
 			<!--Trailer will be grabbed by GetTrailer as another HTTP request is required-->
 			<RegExp input="$$1" output="&lt;url function=&quot;GetTrailer&quot;&gt;http://www.filmweb.pl\1&lt;/url&gt;" dest="5+">
-				<expression>videosList.*?a href="(/video/zwiastun/[^"]+)</expression>
+				<expression>film-videos.*?a href="(/video/zwiastun/[^"]+)</expression>
 			</RegExp>
 			<!--Prepare IMDB search URL using previously prepared title (buffer 7) and year (buffer 8)-->
 			<RegExp input="" output="&lt;chain function=&quot;Latinize&quot;&gt;GetIMDBSearch:http://www.imdb.com/search/title?release_date=$$8,$$8&amp;amp;title=$$7&amp;amp;title_type=feature,tv_movie,documentary,video&lt;/chain&gt;" dest="5+">
