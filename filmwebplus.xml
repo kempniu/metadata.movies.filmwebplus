@@ -90,7 +90,7 @@
 				<RegExp input="$$1" output="\1" dest="6">
 					<expression noclean="1">&lt;table class="filmCast(.*?)&lt;/table&gt;</expression>
 				</RegExp>
-				<expression repeat="yes">&lt;tr.*?src="([^"]+).*?rel="v:starring"&gt;([^&lt;]+).*?class=as.*?&lt;td[^&gt;]*&gt;&lt;span&gt;([^&lt;]+)</expression>
+				<expression repeat="yes">&lt;tr.*?src="([^"]+).*?rel="v:starring"&gt;([^&lt;]+).*?class=as.*?&lt;td[^&gt;]*&gt;&lt;span[^&gt;]*&gt;([^&lt;]+)</expression>
 			</RegExp>
 			<!--Fetch directors-->
 			<RegExp input="$$1" output="&lt;director&gt;\1&lt;/director&gt;" dest="5+">
