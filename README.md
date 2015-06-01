@@ -1,14 +1,14 @@
 Synopsis
 ========
 
-This is a metadata add-on for [XBMC](http://www.xbmc.org/) which scrapes movie information from [Filmweb.pl](http://www.filmweb.pl/) (a Polish movie database) and fills the missing data using [IMDB](http://www.imdb.com/). It also downloads fanarts from [TheMovieDB](http://www.themoviedb.org/).
+This is a metadata add-on for [XBMC/Kodi](http://kodi.tv/) which scrapes movie information from [Filmweb.pl](http://www.filmweb.pl/) (a Polish movie database) and fills the missing data using [IMDB](http://www.imdb.com/). It also downloads fanarts from [TheMovieDB](http://www.themoviedb.org/).
 
 Background
 ==========
 
-Filmweb's website structure gets updated every once in a while and at a point I got tired of waiting for a new release of [smuto's Filmweb add-on](http://wiki.xbmc.org/index.php?title=Add-on:Filmweb) included in the official XBMC add-on repository. I decided to write a new add-on from scratch with two main objectives on my mind: extensive commenting and adhering to the KISS principle (wishful thinking...).
+Filmweb's website structure gets updated every once in a while and at a point I got tired of waiting for a new release of [smuto's Filmweb add-on](http://kodi.wiki/view/Add-on:Filmweb) included in the official Kodi add-on repository. I decided to write a new add-on from scratch with two main objectives on my mind: extensive commenting and adhering to the KISS principle (wishful thinking...).
 
-I dubbed the project *Filmweb+* to avoid confusion with smuto's add-on and allow the two to happily coexist in a single XBMC installation.
+I dubbed the project *Filmweb+* to avoid confusion with smuto's add-on and allow the two to happily coexist in a single Kodi installation.
 
 Installation
 ============
@@ -16,17 +16,18 @@ Installation
 For now, the steps are:
 
 1. Download the [latest version](https://github.com/kempniu/metadata.movies.filmwebplus/archive/master.zip).
-2. In XBMC, navigate to *System* > *Settings* > *Add-ons* > *Install from zip file*.
+2. In Kodi, navigate to *System* > *Settings* > *Add-ons* > *Install from zip file*.
 3. Browse for the downloaded zip file and click *OK*.
 
 Compatibility
 =============
 
-The following XBMC versions are supported:
+The following XBMC/Kodi versions are supported:
 
 * XBMC 11 *Eden*
 * XBMC 12 *Frodo*
 * XBMC 13 *Gotham*
+* Kodi 14 *Helix*
 
 Disclaimer
 ==========
