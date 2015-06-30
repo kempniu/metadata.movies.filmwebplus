@@ -6,7 +6,7 @@
 		</RegExp>
 	</NfoUrl>
 	<CreateSearchUrl dest="3">
-		<!--Movie title is pre-urlencoded by XBMC - no need to urlencode manually-->
+		<!--Movie title is pre-urlencoded by Kodi - no need to urlencode manually-->
 		<RegExp input="" output="&lt;url&gt;http://www.filmweb.pl/search/film?q=$$1&amp;amp;startYear=$$2&amp;amp;endYear=$$2&lt;/url&gt;" dest="3">
 			<expression />
 		</RegExp>
@@ -170,7 +170,7 @@
 
 		I am aware that this function's code may be confusing but this
 		is the price we have to pay for no built-in replacing function
-		being available to XBMC scrapers. Each iteration replaces
+		being available to Kodi scrapers. Each iteration replaces
 		a single occurence of every Polish letter - here is how an
 		example string will look like after each iteration:
 
@@ -282,7 +282,7 @@
 			<RegExp input="$$1" output="&lt;studio&gt;\1&lt;/studio&gt;" dest="5+">
 				<expression repeat="yes">"/company/[^&gt;]+&gt;&lt;span[^&gt;]+&gt;([^&lt;]+)</expression>
 			</RegExp>
-			<!--Fetch runtime (Filmweb currently displays runtime in "X godz. Y min." format which doesn't play nice with XBMC skins)-->
+			<!--Fetch runtime (Filmweb currently displays runtime in "X godz. Y min." format which doesn't play nice with Kodi skins)-->
 			<RegExp input="$$1" output="&lt;runtime&gt;\1&lt;/runtime&gt;" dest="5+">
 				<expression>&lt;div class="infobar"&gt;.*?(\d+) min</expression>
 			</RegExp>
