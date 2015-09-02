@@ -1,7 +1,7 @@
 Synopsis
 ========
 
-This is a metadata add-on for [XBMC/Kodi](http://kodi.tv/) which scrapes movie information from [Filmweb.pl](http://www.filmweb.pl/) (a Polish movie database) and fills the missing data using [IMDB](http://www.imdb.com/). It also downloads fanarts from [TheMovieDB](http://www.themoviedb.org/).
+This is a metadata add-on for [Kodi/XBMC](http://kodi.tv/) which scrapes movie information from [Filmweb.pl](http://www.filmweb.pl/) (a Polish movie database) and fills the missing data using [IMDB](http://www.imdb.com/). It also downloads fanarts from [TheMovieDB](http://www.themoviedb.org/).
 
 Background
 ==========
@@ -22,12 +22,13 @@ For now, the steps are:
 Compatibility
 =============
 
-The following XBMC/Kodi versions are supported:
+The following Kodi/XBMC versions are supported:
 
-* XBMC 11 *Eden*
-* XBMC 12 *Frodo*
-* XBMC 13 *Gotham*
+* Kodi 15 *Isengard*
 * Kodi 14 *Helix*
+* XBMC 13 *Gotham*
+* XBMC 12 *Frodo*
+* XBMC 11 *Eden*
 
 Disclaimer
 ==========
