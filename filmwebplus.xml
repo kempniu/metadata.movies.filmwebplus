@@ -284,7 +284,7 @@
 			</RegExp>
 			<!--Fetch runtime (Filmweb currently displays runtime in "X godz. Y min." format which doesn't play nice with Kodi skins)-->
 			<RegExp input="$$1" output="&lt;runtime&gt;\1&lt;/runtime&gt;" dest="5+">
-				<expression>&lt;div class="infobar"&gt;.*?(\d+) min</expression>
+				<expression>&lt;time itemprop="duration".*?&gt;(\d+) min</expression>
 			</RegExp>
 			<!--Fetch MPAA rating-->
 			<RegExp input="$$1" output="&lt;mpaa&gt;\1&lt;/mpaa&gt;" dest="5+">
