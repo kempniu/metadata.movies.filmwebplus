@@ -22,13 +22,7 @@ For now, the steps are:
 Compatibility
 =============
 
-The following Kodi/XBMC versions are supported:
-
-* Kodi 15 *Isengard*
-* Kodi 14 *Helix*
-* XBMC 13 *Gotham*
-* XBMC 12 *Frodo*
-* XBMC 11 *Eden*
+All Kodi/XBMC versions starting from XBMC 11 "Eden" are supported.
 
 Disclaimer
 ==========
