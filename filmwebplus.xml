@@ -28,7 +28,7 @@
 			<RegExp input="$$6" output="&lt;title&gt;\1&lt;/title&gt;" dest="5+">
 				<!--Save title in buffer 6-->
 				<RegExp input="$$1" output="\1" dest="6">
-					<expression>v:name[^&gt;]+&gt;([^&lt;]+)</expression>
+					<expression>&lt;h1 class="inline filmTitle" itemprop="name"&gt;&lt;a href[^&gt;]+&gt;([^&lt;]+)</expression>
 				</RegExp>
 				<expression />
 			</RegExp>
@@ -74,11 +74,11 @@
 			</RegExp>
 			<!--Fetch rating, replacing comma with decimal point-->
 			<RegExp input="$$1" output="&lt;rating&gt;\1.\2&lt;/rating&gt;" dest="5+">
-				<expression>v:average[^&gt;]+&gt;\s*(\d+),(\d+)</expression>
+				<expression>&lt;span itemprop="ratingValue"&gt;\s*(\d+),(\d+)</expression>
 			</RegExp>
 			<!--Fetch number of votes-->
 			<RegExp input="$$1" output="&lt;votes&gt;\1&lt;/votes&gt;" dest="5+">
-				<expression>v:votes[^&gt;]+&gt;([^&lt;]+)</expression>
+				<expression>&lt;span itemprop="ratingCount"&gt;([^&lt;]+)</expression>
 			</RegExp>
 			<!--Fetch genres-->
 			<RegExp input="$$1" output="&lt;genre&gt;\1&lt;/genre&gt;" dest="5+">
@@ -94,7 +94,7 @@
 			</RegExp>
 			<!--Fetch directors-->
 			<RegExp input="$$1" output="&lt;director&gt;\1&lt;/director&gt;" dest="5+">
-				<expression repeat="yes">v:directedBy[^&gt;]+&gt;([^&lt;]+)</expression>
+				<expression repeat="yes">&lt;li itemprop="director"[^&gt;]+&gt;&lt;a href[^&gt;]+&gt;([^&lt;]+)</expression>
 			</RegExp>
 			<!--Fetch writers' names-->
 			<RegExp input="$$6" output="&lt;credits&gt;\1&lt;/credits&gt;" dest="5+">
@@ -106,7 +106,7 @@
 			</RegExp>
 			<!--Fetch just the first plot description-->
 			<RegExp input="$$1" output="&lt;plot&gt;\1&lt;/plot&gt;" dest="5+">
-				<expression>v:summary[^&gt;]+&gt;(.*?)(&lt;/span&gt;|&lt;/p&gt;)</expression>
+				<expression>&lt;p class="[^"]+" itemprop="description"&gt;(.*?)&lt;/(span|p)&gt;</expression>
 			</RegExp>
 			<!--Fetch the main poster first-->
 			<RegExp input="$$1" output="&lt;thumb preview=&quot;\2&quot;&gt;\1&lt;/thumb&gt;" dest="5+">
