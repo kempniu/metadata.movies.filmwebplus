@@ -90,7 +90,7 @@
 				<RegExp input="$$1" output="\1" dest="6">
 					<expression noclean="1">&lt;table class="filmCast(.*?)&lt;/table&gt;</expression>
 				</RegExp>
-				<expression repeat="yes">&lt;tr.*?src="([^"]+).*?rel="v:starring"&gt;([^&lt;]+).*?class="as.*?&lt;td[^&gt;]*&gt;&lt;span[^&gt;]*&gt;([^&lt;]+)</expression>
+				<expression repeat="yes">&lt;tr.*?src="([^"]+).*?itemprop="name"&gt;([^&lt;]+).*?itemprop="characterName"&gt; &lt;span[^&gt;]*&gt;([^&lt;]+)</expression>
 			</RegExp>
 			<!--Fetch directors-->
 			<RegExp input="$$1" output="&lt;director&gt;\1&lt;/director&gt;" dest="5+">
@@ -106,7 +106,7 @@
 			</RegExp>
 			<!--Fetch just the first plot description-->
 			<RegExp input="$$1" output="&lt;plot&gt;\1&lt;/plot&gt;" dest="5+">
-				<expression>&lt;p class="[^"]+" itemprop="description"&gt;(.*?)&lt;/(span|p)&gt;</expression>
+				<expression>&lt;p class="text(?: longText)?" itemprop="description"&gt;(.*?)&lt;/(span|p)&gt;</expression>
 			</RegExp>
 			<!--Fetch the main poster first-->
 			<RegExp input="$$1" output="&lt;thumb preview=&quot;\2&quot;&gt;\1&lt;/thumb&gt;" dest="5+">
