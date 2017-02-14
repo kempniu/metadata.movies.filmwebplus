@@ -136,7 +136,7 @@
 		<RegExp input="$$5" output="&lt;details&gt;\1&lt;/details&gt;" dest="3">
 			<!--Fetch posters-->
 			<RegExp input="$$1" output="&lt;thumb preview=&quot;\1&quot;&gt;\2&lt;/thumb&gt;" dest="5">
-				<expression repeat="yes">&lt;img src="([^"]+)".*?data-photo="([^"]+)"</expression>
+				<expression repeat="yes">&lt;img src="([^"]+)" alt=.*?data-photo="([^"]+)"</expression>
 			</RegExp>
 			<expression noclean="1" />
 		</RegExp>
