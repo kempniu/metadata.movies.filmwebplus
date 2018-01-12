@@ -70,7 +70,7 @@
 			</RegExp>
 			<!--Fetch countries-->
 			<RegExp input="$$1" output="&lt;country&gt;\1&lt;/country&gt;" dest="5+">
-				<expression repeat="yes">&lt;a href="/search/film\?countryIds=\d+"&gt;([^&lt;]+)</expression>
+				<expression repeat="yes">&lt;a href="/films/search\?countries=\d+"&gt;([^&lt;]+)</expression>
 			</RegExp>
 			<!--Fetch rating, replacing comma with decimal point-->
 			<RegExp input="$$1" output="&lt;rating&gt;\1.\2&lt;/rating&gt;" dest="5+">
@@ -82,7 +82,7 @@
 			</RegExp>
 			<!--Fetch genres-->
 			<RegExp input="$$1" output="&lt;genre&gt;\1&lt;/genre&gt;" dest="5+">
-				<expression repeat="yes">&lt;a href="/search/film\?genreIds=\d+"&gt;([^&lt;]+)</expression>
+				<expression repeat="yes">&lt;a href="/films/search\?genres=\d+"&gt;([^&lt;]+)</expression>
 			</RegExp>
 			<!--Fetch actors from cast, along with portraits and roles-->
 			<RegExp input="$$6" output="&lt;actor&gt;&lt;thumb&gt;\1&lt;/thumb&gt;&lt;name&gt;\2&lt;/name&gt;&lt;role&gt;\3&lt;/role&gt;&lt;/actor&gt;" dest="5+">
