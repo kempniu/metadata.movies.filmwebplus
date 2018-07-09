@@ -16,7 +16,7 @@
 		<RegExp input="$$5" output="&lt;results sorted=&quot;yes&quot;&gt;\1&lt;/results&gt;" dest="3">
 			<!--Fetch search results (title, year, URL)-->
 			<RegExp input="$$1" output="&lt;entity&gt;&lt;title&gt;\2&lt;/title&gt;&lt;year&gt;\3&lt;/year&gt;&lt;url&gt;https://www.filmweb.pl\1&lt;/url&gt;&lt;/entity&gt;" dest="5+">
-				<expression repeat="yes">&lt;h3&gt;&lt;a href="([^"]+)" class="hdr hdr-medium hitTitle"&gt;(.*?)&lt;/a&gt;&lt;span class="hdr hdr-medium hitTitle"&gt;\((\d+)\)&lt;/span&gt;&lt;/h3&gt;</expression>
+				<expression repeat="yes">&lt;a class="filmPreview__link" href="([^"]+)"&gt;&lt;h3 class="filmPreview__title"&gt;([^&lt;]+)&lt;/h3&gt;&lt;/a&gt; &lt;span class="filmPreview__year"&gt;(\d+)&lt;/span&gt;</expression>
 			</RegExp>
 			<expression fixchars="1" noclean="1" />
 		</RegExp>
