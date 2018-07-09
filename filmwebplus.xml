@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><scraper framework="1.1" date="2012-10-26" name="Filmweb+" content="movies" language="pl">
-	<!-- Match only URLs starting with http://www.filmweb.pl/ -->
+	<!-- Match only URLs starting with https://www.filmweb.pl/ -->
 	<NfoUrl dest="3">
 		<RegExp input="$$1" output="&lt;url&gt;\1&lt;/url&gt;" dest="3">
-			<expression noclean="1">(http://www.filmweb.pl/[^\r\n]+)</expression>
+			<expression noclean="1">(https://www.filmweb.pl/[^\r\n]+)</expression>
 		</RegExp>
 	</NfoUrl>
 	<CreateSearchUrl dest="3">
 		<!--Movie title is pre-urlencoded by Kodi - no need to urlencode manually-->
-		<RegExp input="" output="&lt;url&gt;http://www.filmweb.pl/search/film?q=$$1&amp;amp;startYear=$$2&amp;amp;endYear=$$2&lt;/url&gt;" dest="3">
+		<RegExp input="" output="&lt;url&gt;https://www.filmweb.pl/search/film?q=$$1&amp;amp;startYear=$$2&amp;amp;endYear=$$2&lt;/url&gt;" dest="3">
 			<expression />
 		</RegExp>
 	</CreateSearchUrl>
@@ -15,7 +15,7 @@
 		<!--Enclose results in <results></results>-->
 		<RegExp input="$$5" output="&lt;results sorted=&quot;yes&quot;&gt;\1&lt;/results&gt;" dest="3">
 			<!--Fetch search results (title, year, URL)-->
-			<RegExp input="$$1" output="&lt;entity&gt;&lt;title&gt;\2&lt;/title&gt;&lt;year&gt;\3&lt;/year&gt;&lt;url&gt;http://www.filmweb.pl\1&lt;/url&gt;&lt;/entity&gt;" dest="5+">
+			<RegExp input="$$1" output="&lt;entity&gt;&lt;title&gt;\2&lt;/title&gt;&lt;year&gt;\3&lt;/year&gt;&lt;url&gt;https://www.filmweb.pl\1&lt;/url&gt;&lt;/entity&gt;" dest="5+">
 				<expression repeat="yes">&lt;h3&gt;&lt;a href="([^"]+)" class="hdr hdr-medium hitTitle"&gt;(.*?)&lt;/a&gt;&lt;span class="hdr hdr-medium hitTitle"&gt;\((\d+)\)&lt;/span&gt;&lt;/h3&gt;</expression>
 			</RegExp>
 			<expression fixchars="1" noclean="1" />
@@ -113,19 +113,19 @@
 				<expression>&lt;div id="filmPosterLink[^&gt;]+&gt;([^&lt;]+).*?src="([^"]+)</expression>
 			</RegExp>
 			<!--Other posters will be grabbed by GetPosters as another HTTP request is required-->
-			<RegExp input="$$1" output="&lt;url function=&quot;GetPosters&quot;&gt;http://www.filmweb.pl\1&lt;/url&gt;" dest="5+">
+			<RegExp input="$$1" output="&lt;url function=&quot;GetPosters&quot;&gt;https://www.filmweb.pl\1&lt;/url&gt;" dest="5+">
 				<expression>&lt;a href="([^"]+/posters)"</expression>
 			</RegExp>
 			<!--Trailer will be grabbed by GetTrailer as another HTTP request is required-->
-			<RegExp input="$$1" output="&lt;url function=&quot;GetTrailer&quot;&gt;http://www.filmweb.pl\1&lt;/url&gt;" dest="5+">
+			<RegExp input="$$1" output="&lt;url function=&quot;GetTrailer&quot;&gt;https://www.filmweb.pl\1&lt;/url&gt;" dest="5+">
 				<expression>film-videos.*?a href="(/video/zwiastun/[^"]+)</expression>
 			</RegExp>
 			<!--Prepare IMDB search URL using previously prepared title (buffer 7) and year (buffer 8)-->
-			<RegExp input="" output="&lt;chain function=&quot;Latinize&quot;&gt;GetIMDBSearch:http://www.imdb.com/search/title?release_date=$$8,$$8&amp;amp;title=$$7&amp;amp;title_type=feature,tv_movie,documentary,video&lt;/chain&gt;" dest="5+">
+			<RegExp input="" output="&lt;chain function=&quot;Latinize&quot;&gt;GetIMDBSearch:https://www.imdb.com/search/title?release_date=$$8,$$8&amp;amp;title=$$7&amp;amp;title_type=feature,tv_movie,documentary,video&lt;/chain&gt;" dest="5+">
 				<expression />
 			</RegExp>
 			<!--Prepare TMDB search URL using previously prepared title (buffer 7) and year (buffer 8)-->
-			<RegExp input="" output="&lt;chain function=&quot;Latinize&quot;&gt;GetTMDBSearch:http://www.themoviedb.org/search/movie?query=$$7+y%3A$$8&lt;/chain&gt;" dest="5+">
+			<RegExp input="" output="&lt;chain function=&quot;Latinize&quot;&gt;GetTMDBSearch:https://www.themoviedb.org/search/movie?query=$$7+y%3A$$8&lt;/chain&gt;" dest="5+">
 				<expression />
 			</RegExp>
 			<expression fixchars="1" noclean="1" />
@@ -154,7 +154,7 @@
 			</RegExp>
 			<!--Invoke YouTube plugin if the trailer is sourced from YouTube-->
 			<RegExp input="$$5" output="plugin://plugin.video.youtube/?action=play_video&amp;amp;videoid=\1" dest="5">
-				<expression>http://www.youtube.com/v/(.*)</expression>
+				<expression>https://youtube.com/v/(.*)</expression>
 			</RegExp>
 			<expression noclean="1" />
 		</RegExp>
@@ -271,7 +271,7 @@
 	</Latinize>
 	<GetIMDBSearch dest="3">
 		<!--Just take the first movie ID from the search results page and hope for the best, then use that ID to get IMDB details-->
-		<RegExp input="$$1" output="&lt;details&gt;&lt;url function=&quot;GetIMDBDetails&quot;&gt;http://www.imdb.com/title/\1/&lt;/url&gt;&lt;/details&gt;" dest="3">
+		<RegExp input="$$1" output="&lt;details&gt;&lt;url function=&quot;GetIMDBDetails&quot;&gt;https://www.imdb.com/title/\1/&lt;/url&gt;&lt;/details&gt;" dest="3">
 			<expression noclean="1">&lt;div class="lister-list"&gt;.*?&lt;a href="/title/([^/]+)</expression>
 		</RegExp>
 	</GetIMDBSearch>
