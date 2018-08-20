@@ -288,7 +288,7 @@
 			</RegExp>
 			<!--Fetch MPAA rating-->
 			<RegExp input="$$1" output="&lt;mpaa&gt;\1&lt;/mpaa&gt;" dest="5+">
-				<expression>&lt;span itemprop="contentRating"&gt;([^&lt;]+)</expression>
+				<expression>&lt;/h4&gt;\s*&lt;span&gt;([^&lt;]+)</expression>
 			</RegExp>
 			<expression noclean="1" />
 		</RegExp>
