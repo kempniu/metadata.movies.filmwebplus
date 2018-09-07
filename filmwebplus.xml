@@ -146,7 +146,7 @@
 		<RegExp input="$$5" output="&lt;details&gt;&lt;trailer&gt;\1&lt;/trailer&gt;&lt;/details&gt;" dest="3">
 			<!--Fetch only the first trailer-->
 			<RegExp input="$$1" output="\1" dest="5">
-				<expression>"src":"([^"]+)</expression>
+				<expression>src:\["([^"]+)</expression>
 			</RegExp>
 			<!--Invoke YouTube plugin if the trailer is sourced from YouTube-->
 			<RegExp input="$$5" output="plugin://plugin.video.youtube/?action=play_video&amp;amp;videoid=\1" dest="5">
