@@ -100,7 +100,7 @@
 			<RegExp input="$$6" output="&lt;credits&gt;\1&lt;/credits&gt;" dest="5+">
 				<!--Extract writers-->
 				<RegExp input="$$1" output="\1" dest="6">
-					<expression noclean="1">&lt;dt&gt;scenariusz:&lt;/dt&gt;&lt;dd&gt;(.*?)&lt;/dd&gt;</expression>
+					<expression noclean="1">&lt;th&gt;scenariusz:&lt;/th&gt;&lt;td&gt;(.*?)&lt;/td&gt;</expression>
 				</RegExp>
 				<expression repeat="yes">&lt;a href="/person[^&gt;]+&gt;([^&lt;]+)</expression>
 			</RegExp>
