@@ -69,8 +69,11 @@
 				<expression />
 			</RegExp>
 			<!--Fetch countries-->
-			<RegExp input="$$1" output="&lt;country&gt;\1&lt;/country&gt;" dest="5+">
-				<expression repeat="yes">&lt;a href="/films/search\?countries=\d+"&gt;([^&lt;]+)</expression>
+			<RegExp input="$$6" output="&lt;country&gt;\1&lt;/country&gt;" dest="5+">
+				<RegExp input="$$1" output="\1" dest="6">
+					<expression noclean="1">&lt;div class="filmInfo__header"&gt;produkcja&lt;/div&gt;&lt;div class="filmInfo__info"&gt;(.*?)&lt;/div&gt;</expression>
+				</RegExp>
+				<expression repeat="yes">&lt;a href="[^"]+"&gt;([^&lt;]+)</expression>
 			</RegExp>
 			<!--Fetch rating, replacing comma with decimal point-->
 			<RegExp input="$$1" output="&lt;rating&gt;\1.\2&lt;/rating&gt;" dest="5+">
@@ -81,8 +84,11 @@
 				<expression>&lt;span itemprop="ratingCount"&gt;([^&lt;]+)</expression>
 			</RegExp>
 			<!--Fetch genres-->
-			<RegExp input="$$1" output="&lt;genre&gt;\1&lt;/genre&gt;" dest="5+">
-				<expression repeat="yes">&lt;a href="/films/search\?genres=\d+"&gt;([^&lt;]+)</expression>
+			<RegExp input="$$6" output="&lt;genre&gt;\1&lt;/genre&gt;" dest="5+">
+				<RegExp input="$$1" output="\1" dest="6">
+					<expression noclean="1">&lt;div class="filmInfo__info" itemprop="genre"&gt;(.*?)&lt;/div&gt;</expression>
+				</RegExp>
+				<expression repeat="yes">&lt;a href="[^"]+"&gt;([^&lt;]+)</expression>
 			</RegExp>
 			<!--Fetch actors from cast, along with portraits and roles-->
 			<RegExp input="$$6" output="&lt;actor&gt;&lt;thumb&gt;\2&lt;/thumb&gt;&lt;name&gt;\3&lt;/name&gt;&lt;role&gt;\4&lt;/role&gt;&lt;/actor&gt;" dest="5+">
