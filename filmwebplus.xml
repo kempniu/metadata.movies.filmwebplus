@@ -302,9 +302,9 @@
 		<!--Enclose fanarts in <details><fanart></fanart></details>-->
 		<RegExp input="$$5" output="&lt;details&gt;&lt;fanart&gt;\1&lt;/fanart&gt;&lt;/details&gt;" dest="3">
 			<!--Fetch fanarts-->
-			<RegExp input="$$1" output="&lt;thumb preview=&quot;https:\1&quot;&gt;https:\2/original/\3&lt;/thumb&gt;" dest="5">
+			<RegExp input="$$1" output="&lt;thumb preview=&quot;https://www.themoviedb.org\2&quot;&gt;https://www.themoviedb.org\1&lt;/thumb&gt;" dest="5">
 				<!--Extract the list of fanarts (called "backdrops" in TMDB)-->
-				<expression repeat="yes">&lt;img class="backdrop.*?data-src="((.*?)/w\d+[^/]+/([^"]+))</expression>
+				<expression repeat="yes">&lt;a class="image" href="([^"]+).*?class="backdrop" src="([^"]+)</expression>
 			</RegExp>
 			<expression noclean="1" />
 		</RegExp>
