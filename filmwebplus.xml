@@ -68,6 +68,10 @@
 				</RegExp>
 				<expression />
 			</RegExp>
+			<!--Fetch runtime -->
+			<RegExp input="$$1" output="&lt;runtime&gt;\1&lt;/runtime&gt;" dest="5+">
+				<expression>data-duration="(\d+)"</expression>
+			</RegExp>
 			<!--Fetch countries-->
 			<RegExp input="$$6" output="&lt;country&gt;\1&lt;/country&gt;" dest="5+">
 				<RegExp input="$$1" output="\1" dest="6">
@@ -280,10 +284,6 @@
 			<!--Fetch studios-->
 			<RegExp input="$$1" output="&lt;studio&gt;\1&lt;/studio&gt;" dest="5+">
 				<expression repeat="yes">"/company/[^/&gt;]+&gt; ([^&lt;]+)</expression>
-			</RegExp>
-			<!--Fetch runtime (Filmweb currently displays runtime in "X godz. Y min." format which doesn't play nice with Kodi skins)-->
-			<RegExp input="$$1" output="&lt;runtime&gt;\1&lt;/runtime&gt;" dest="5+">
-				<expression>&lt;time datetime=[^&gt;]+&gt;(\d+) min</expression>
 			</RegExp>
 			<!--Fetch MPAA rating-->
 			<RegExp input="$$1" output="&lt;mpaa&gt;\1&lt;/mpaa&gt;" dest="5+">
