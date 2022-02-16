@@ -28,3 +28,4 @@ Disclaimer
 ==========
 
 Feel free to report any issues with the scraper, though any feature requests will probably remain unheard. The main point of this project was to create a relatively simple scraper for my own personal use, without the intention of creating a full-blown project. I was also hoping the XML file would have some educational value for newbie scraper developers like myself.
+
